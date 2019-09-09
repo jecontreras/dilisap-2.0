@@ -21,6 +21,12 @@ import { TiendasComponent } from './components/tiendas/tiendas.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { RecaptchaModule } from 'ng-recaptcha';
 
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from 'app/redux/app';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'environments/environment.prod';
+
+
 @NgModule({
   declarations: [
     MainComponent,
@@ -36,7 +42,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     ShopComponent,
     SingleblogComponent,
     SingleproductdetailsComponent,
-    TiendasComponent
+    TiendasComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +52,11 @@ import { RecaptchaModule } from 'ng-recaptcha';
     FormsModule,
     ReactiveFormsModule,
     MainRoutingModule,
+    StoreModule.forRoot({ name: appReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     MyOwnCustomMaterialModule
   ]
 })

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FactoryModelService } from './../../../../services/factory-model.service';
 import { ProductoService } from './../../../../services/producto';
+import { Store } from '@ngrx/store';
+import { APPINT } from 'app/redux/interfasapp';
 
 @Component({
   selector: 'app-contenido',
@@ -14,11 +16,18 @@ export class ContenidoComponent implements OnInit {
 
   constructor(
     private _model: FactoryModelService,
-    private _producto: ProductoService
+    private _producto: ProductoService,
+    private store: Store<APPINT>
   ) {
     this.getproduct();
-    console.log(this._model.app);
+    // console.log(this._model.app);
     this.app = this._model.app;
+    this.store.select('name')
+    .subscribe(
+      (res:any)=>{
+        console.log(res);
+      }
+    );
     // if(!this._model.app.portada1){
     //   this.app = {
     //     portada1: './assets/img/productnew2.png',

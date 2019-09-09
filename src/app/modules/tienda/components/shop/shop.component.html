@@ -13,28 +13,28 @@
         <div class="">
           <div class="row">
             <label>Tienda:</label>
-            <span>{{ data.codigo }}</span>
+            <span>{{ data.empresa }}</span>
           </div>
-          <!-- <div class="row">
+          <div class="row">
             <label>Direccion:</label>
-            <span>{{ data.direccion || 'calle 1e centro'}}</span>
-          </div> -->
+            <span>{{ data.direccion || '*'}}</span>
+          </div>
           <div class="row">
             <label>Contacto:</label>
-            <span>{{'+57 3133637978'}}</span>
+            <span>{{ data.telefono || '+57 3133637978'}}</span>
           </div>
           <div class="row">
             <label>Fundada:</label>
-            <span>{{ data.fundada || '2019' }}</span>
+            <span>{{ data.createdAt | date:'fullDate' || '2019' }}</span>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <a [routerLink]="['../../contact', data.url]" class="mouse">Informacion +:</a>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="col">
         <img
-          src="{{'./assets/img/fondoshop.jpg'}}" alt="Not Found"
+          [src]="'data.foto2 || ./assets/img/fondoshop.jpg'" alt="Not Found"
           class="rounded imgperfil"
         >
       </div>
@@ -80,7 +80,7 @@
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="page-title text-center">
-                    <h2>{{ 'Tienda '+data.codigo }}</h2>
+                    <h2>{{ 'Tienda '+data.empresa }}</h2>
                 </div>
             </div>
         </div>

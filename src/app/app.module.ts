@@ -26,6 +26,10 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 // import { OwlModule } from 'ngx-owl-carousel';
 
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './redux/app';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'environments/environment';
 
 @NgModule({
   imports: [
@@ -45,7 +49,14 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     MyOwnCustomMaterialModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    }),
+
+    StoreModule.forRoot({ name: appReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+
   ],
   declarations: [
     AppComponent,

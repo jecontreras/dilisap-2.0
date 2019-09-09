@@ -32,6 +32,8 @@
     "@angular/router": "7.0.2",
     "@kolkov/angular-editor": "^0.18.4",
     "@nativescript/schematics": "^0.5.0",
+    "@ngrx/store": "^8.3.0",
+    "@ngrx/store-devtools": "^8.3.0",
     "@ngx-share/core": "^7.1.2",
     "@types/moment": "^2.13.0",
     "ajv": "6.4.0",

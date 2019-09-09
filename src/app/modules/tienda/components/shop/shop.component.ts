@@ -7,6 +7,9 @@ import { ProductoService } from './../../../../services/producto';
 import { MercadoService } from './../../../../services/mercados.service';
 import { ColoresService } from './../../../../services/colores.service';
 import * as _ from 'lodash';
+import { Store } from '@ngrx/store';
+import { APPINT } from 'app/redux/interfasapp';
+import { DataappAction } from 'app/redux/app.actions';
 
 @Component({
   selector: 'app-shop',
@@ -41,7 +44,8 @@ export class ShopComponent implements OnInit {
     private _color: ColoresService,
     private _mercados: MercadoService,
     private _Producto: ProductoService,
-    private _Categoria: CategoriasService
+    private _Categoria: CategoriasService,
+    private sotre: Store<APPINT>
   ) {
     this.data = {};
     this.getmercados(null);
@@ -173,6 +177,9 @@ export class ShopComponent implements OnInit {
           res = res.data[0];
           if(res){
             this.data = res;
+            const accion = new DataappAction(res);
+            this.sotre.dispatch( accion )
+
             this.getProduct(res, null);
           }else{
             this.disableindex = true;

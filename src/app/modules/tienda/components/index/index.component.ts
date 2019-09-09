@@ -7,6 +7,8 @@ import { ToolsService } from './../../../../services/tools.service';
 import { CategoriasService } from './../../../../services/categorias';
 import { ColoresService } from './../../../../services/colores.service';
 import { TallaService } from './../../../../services/talla.service';
+import { Store } from '@ngrx/store';
+import { APPINT } from 'app/redux/interfasapp';
 
 @Component({
   selector: 'app-index',
@@ -34,7 +36,8 @@ export class IndexComponent implements OnInit {
     private _color: ColoresService,
     private _talla: TallaService,
     private _categoria: CategoriasService,
-    private _model: FactoryModelService
+    private _model: FactoryModelService,
+    private store: Store<APPINT>
   ) {
     this.getlist();
     this._model.loadapp()
