@@ -13,46 +13,35 @@ export class ContenidoComponent implements OnInit {
   public listproductpres: any = [];
   public disableindex: boolean = false;
   public app: any = {};
-
+  public query: any={
+    where:{
+      opcion: "activo"
+    },
+    limit: 12
+  }
   constructor(
     private _model: FactoryModelService,
     private _producto: ProductoService,
     private store: Store<APPINT>
   ) {
-    this.getproduct();
     // console.log(this._model.app);
     this.app = this._model.app;
     this.store.select('name')
     .subscribe(
       (res:any)=>{
-        console.log(res);
+        // console.log(res);
+        if(res) this.query.where.empresa = res.id;
       }
     );
-    // if(!this._model.app.portada1){
-    //   this.app = {
-    //     portada1: './assets/img/productnew2.png',
-    //     portada2: './assets/img/tecnologia.jpg',
-    //     portada3: './assets/img/computadores.png',
-    //     portada4: './assets/img/gamer.jpg',
-    //     portada5: './assets/img/descuentos.png'
-    //   };
-    // }else{
-    //   this.app = this._model.app;
-    // }
+    this.getproduct();
   }
   ngOnInit(){
 
   }
   getproduct(){
-    return this._producto.get({
-      where:{
-        opcion: "activo"
-      },
-      limit: 12
-    })
+    return this._producto.get(this.query)
     .subscribe(
       (res: any)=>{
-        // console.log(res);
         this.disableindex = !this.disableindex;
         res = res.data;
         this.listproductpres = res;

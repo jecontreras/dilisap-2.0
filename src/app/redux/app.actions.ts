@@ -1,8 +1,8 @@
 import { Action } from "@ngrx/store";
 
-export const DATAAPP = '[App] Dataapp';
+export let DATAAPP = '[App] Dataapp';
 
-
+// console.log("heyaaaa");
 export class DataappAction implements Action {
     readonly type = DATAAPP;
     constructor( public payload: object){}
