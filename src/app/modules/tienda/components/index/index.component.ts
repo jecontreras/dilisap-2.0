@@ -44,7 +44,7 @@ export class IndexComponent implements OnInit {
     // this.getcart();
   }
   ngOnInit(){
-    console.log(this._model.app);
+    // console.log(this._model.app);
     this.app = this._model.app;
   }
   eventocart(){

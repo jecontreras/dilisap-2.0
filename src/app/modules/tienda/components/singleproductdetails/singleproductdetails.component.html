@@ -18,7 +18,7 @@
           </small></span>
         </div>
         <div class="p-2">
-          <a [routerLink]="['/tienda/shop', data.empresa.codigo]">
+          <a class="mouse">
             {{ "Empresa: " + data.empresa.codigo }}
           </a>
         </div>
@@ -130,7 +130,8 @@
               <div class="cart-fav-box d-flex align-items-center">
                   <div class="row">
                     <!-- Cart -->
-                    <button type="submit" (click)="agregar(data)" name="addtocart" class="btn essence-btn" [disabled]="data.check">Agregar Al Carrito</button>
+                    <!-- <button type="submit" (click)="agregar(data)" name="addtocart" class="btn essence-btn" [disabled]="data.check">Agregar Al Carrito</button> -->
+                    <a href="{{urlwhat}}" target="_blank" name="addtocart" class="btn essence-btn">Comprar</a>
                     <!-- Favourite -->
                     <div class="p-3 row">
                       <div class="product-favourite ml-4 p-2" (click)="blur('megusta')">

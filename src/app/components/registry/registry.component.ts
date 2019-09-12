@@ -7,6 +7,7 @@ import { AuthService } from './../../services/auth.service';
 import { ToolsService } from './../../services/tools.service';
 import { departamento } from '../../Json/departamentos';
 import { paises } from '../../Json/paises';
+import { Indicativo } from '../../Json/indicativo';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 @Component({
@@ -37,6 +38,7 @@ export class RegistryComponent implements OnInit {
   submitted = false;
   public logead: boolean = false;
   public app: any = {};
+  public listindicativo: any = Indicativo;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,13 +66,14 @@ export class RegistryComponent implements OnInit {
     this.listpais = paises;
     // console.log(this.listdepartamento);
     this.registerForm = this.formBuilder.group({
-      tipocuenta: [false],
+      tipocuenta: ["true"],
       nameempresa: [''],
       name: ['', Validators.required],
       username: ['', Validators.required],
       lastname: [''],
       email: ['', Validators.required],
       celular: [''],
+      indicativo: ["57"],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirpassword: ['', [Validators.required, Validators.minLength(6)]],
       pais: ['Colombia'],

@@ -13,6 +13,7 @@ export class ContenidoComponent implements OnInit {
   public listproductpres: any = [];
   public disableindex: boolean = false;
   public app: any = {};
+  public agente: any = {};
   public query: any={
     where:{
       opcion: "activo"
@@ -30,7 +31,7 @@ export class ContenidoComponent implements OnInit {
     .subscribe(
       (res:any)=>{
         // console.log(res);
-        if(res) this.query.where.empresa = res.id;
+        if(res) this.agente = res;
       }
     );
     this.getproduct();

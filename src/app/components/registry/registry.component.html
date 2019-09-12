@@ -10,6 +10,7 @@ url(./assets/img/imgaes6.jpg);
             <div>
               <img class="logo logo-img rounded" [src]="app.logo || './assets/img/dilisap1.png'"
               alt="logo">
+              <h4>REGISTRARSE COMO VENDEDOR</h4>
             </div>
                 <form
                    class="column py-5 px-5"
@@ -78,6 +79,38 @@ url(./assets/img/imgaes6.jpg);
                         <span class="bg-danger text-white rounded">El Username Ya Se Encuentra Registrado Por Favor Utilizar Otro</span>
                       </div>
                    </div>
+                   <div class="md-form col-md-2">
+                    <label for="Form-email5">Indicativo</label>
+                    <select
+                        class="custom-select"
+                        formControlName="indicativo"
+                        style="color: black;"
+                     >
+                       <option
+                          value="{{item.phone_code}}"
+                          *ngFor="let item of listindicativo"
+                        >
+                          {{ item.nombre + " +" + item.phone_code }}
+                        </option>
+                     </select>
+                   </div>
+                   <div class="md-form col-md-4">
+                     <label for="Form-email5" >Celular</label>
+                     <input
+                         placeholder="Celular de Contacto"
+                         style="color: white;"
+                         type="number"
+                         formControlName="celular"
+                         required
+                         maxlength="10"
+                         [ngClass]="{ 'is-invalid': submitted && f.celular.errors }"
+                         class="form-control white-text"
+                      >
+                      <div *ngIf="submitted && f.celular.errors" class="invalid-feedback">
+                          <div *ngIf="f.celular.errors.required">celular is required</div>
+                          <div *ngIf="f.celular.errors.minlength">celular must be at least 10 characters</div>
+                      </div>
+                   </div>
                    <div class="md-form col-md-6">
                      <label for="Form-email5" >Contraseña</label>
                      <input
@@ -118,24 +151,7 @@ url(./assets/img/imgaes6.jpg);
                         <span class="bg-danger text-white rounded">Las Contraseñas No son Iguales</span>
                       </div>
                    </div>
-                   <div class="md-form col-md-6">
-                     <label for="Form-email5" >Celular</label>
-                     <input
-                         placeholder="Celular de Contacto"
-                         style="color: white;"
-                         type="number"
-                         formControlName="celular"
-                         required
-                         maxlength="10"
-                         [ngClass]="{ 'is-invalid': submitted && f.celular.errors }"
-                         class="form-control white-text"
-                      >
-                      <div *ngIf="submitted && f.celular.errors" class="invalid-feedback">
-                          <div *ngIf="f.celular.errors.required">celular is required</div>
-                          <div *ngIf="f.celular.errors.minlength">celular must be at least 10 characters</div>
-                      </div>
-                   </div>
-                   <div class="md-form col-md-6">
+                   <!-- <div class="md-form col-md-6">
                      <label for="Form-email5" class="text-white">Departamento</label>
                      <select
                         class="custom-select"
@@ -150,8 +166,8 @@ url(./assets/img/imgaes6.jpg);
                           {{ item.departamento}}
                         </option>
                      </select>
-                   </div>
-                   <div class="md-form col-md-6">
+                   </div> -->
+                   <!-- <div class="md-form col-md-6">
                      <label for="Form-email5" class="text-white" >Ciudad Donde Vives</label>
                       <select
                          class="custom-select"
@@ -165,8 +181,8 @@ url(./assets/img/imgaes6.jpg);
                            {{ item}}
                          </option>
                      </select>
-                   </div>
-                   <div class="md-form col-md-12 column">
+                   </div> -->
+                   <!-- <div class="md-form col-md-12 column">
                      <label for="Form-email5" class="text-white" >Tipo de cuenta</label>
                       <select
                          class="custom-select"
@@ -184,36 +200,36 @@ url(./assets/img/imgaes6.jpg);
                             Usuario
                           </option>
                      </select>
-                   </div>
+                   </div> -->
                    <div class="md-form col-md-12" *ngIf="this.registerForm.value.tipocuenta">
-                     <label for="Form-name5">Nombre de la Empresa</label>
+                     <label for="Form-name5">Nombre de tu Tienda</label>
                      <input
                         type="text"
                         style="color: white;"
                         required
-                        placeholder="Nombre de la empresa a registrar"
+                        placeholder="Nombre"
                         formControlName="nameempresa"
                         class="form-control white-text"
                     >
                    </div>
-                   <div class="md-form col-md-6" *ngIf="this.registerForm.value.tipocuenta">
-                     <label for="Form-name5">Direccion de la empresa</label>
+                   <div class="md-form col-md-12" *ngIf="this.registerForm.value.tipocuenta">
+                     <label for="Form-name5">Direccion</label>
                      <input
                         type="text"
                         style="color: white;"
                         required
-                        placeholder="Nombre de la empresa a registrar"
+                        placeholder="Direccion personal"
                         formControlName="direccion"
                         class="form-control white-text"
                     >
                    </div>
-                   <div class="md-form col-md-6" *ngIf="this.registerForm.value.tipocuenta">
+                   <!-- <div class="md-form col-md-6" *ngIf="this.registerForm.value.tipocuenta">
                      <label for="formGroupExampleInput">Ofrece</label>
                      <select class="custom-select" formControlName="ofreceempresa" style="color: black;">
                        <option value="producto">Producto</option>
-                       <!-- <option value="servicio">Servicio</option> -->
+                       <option value="servicio">Servicio</option>
                      </select>
-                   </div>
+                   </div> -->
                    <div class="md-form col">
                      <a target="_blank" class="text-white" routerLink="/tienda/contact">Politicas y Privacidad</a>
                      <section class="example-section p">

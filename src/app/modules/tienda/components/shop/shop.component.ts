@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { APPINT } from 'app/redux/interfasapp';
 import { DataappAction } from 'app/redux/app.actions';
+import { UsuariosService } from 'app/services/usuarios.service';
 
 @Component({
   selector: 'app-shop',
@@ -45,6 +46,7 @@ export class ShopComponent implements OnInit {
     private _mercados: MercadoService,
     private _Producto: ProductoService,
     private _Categoria: CategoriasService,
+    private _User: UsuariosService,
     private sotre: Store<APPINT>
   ) {
     this.data = {};
@@ -177,12 +179,25 @@ export class ShopComponent implements OnInit {
           res = res.data[0];
           if(res){
             this.data = res;
-            const accion = new DataappAction(res);
-            this.sotre.dispatch( accion )
-
-            this.getProduct(res, null);
+            return this._User.get({
+              where:{
+                empresa: res.id,
+                rol: "admin"
+              }
+            })
+            .subscribe(
+              (user:any)=>{
+                // console.log(user);
+                user = user.data[0];
+                if(user){
+                  const accion = new DataappAction(user);
+                  this.sotre.dispatch( accion );
+                }
+                this.getProduct(null, null);
+              });
           }else{
             this.disableindex = true;
+            this.getProduct(null, null);
           }
         }
       )
@@ -275,11 +290,11 @@ export class ShopComponent implements OnInit {
       this.query.sort ='createdAt DESC';
     }
     this.query.where.opcion = 'activo';
-    console.log(this.query);
+    // console.log(this.query);
     return this._Producto.get(this.query)
     .subscribe(
       (res: any)=>{
-        console.log(res);
+        // console.log(res);
         this.count = res.count;
         this.disableindex = true;
         res = res.data;

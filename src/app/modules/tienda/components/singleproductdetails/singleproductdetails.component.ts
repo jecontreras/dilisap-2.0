@@ -11,6 +11,8 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { NgImageSliderComponent } from 'ng-image-slider';
 import swal from 'sweetalert';
+import { Store } from '@ngrx/store';
+import { APPINT } from 'app/redux/interfasapp';
 @Component({
   selector: 'app-singleproductdetails',
   templateUrl: './singleproductdetails.component.html',
@@ -47,6 +49,8 @@ export class SingleproductdetailsComponent implements OnInit {
   sliderSlideImage: Number = 1;
   sliderAnimationSpeed: any = 1;
   public disableinit: boolean = false;
+  public agente: any = {};
+  public urlwhat: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -56,9 +60,14 @@ export class SingleproductdetailsComponent implements OnInit {
     private _comentario: ComentarioService,
     private _categoria: CategoriasService,
     private _tools: ToolsService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private Store: Store<APPINT>
   ) {
     this.listdepartamento = departamento;
+    this.Store.select('name')
+    .subscribe((name)=>{
+      this.agente = name;
+    });
     this.route.params.subscribe(params => {
       // console.log(params);
        if(params['id']!=null){
@@ -71,14 +80,6 @@ export class SingleproductdetailsComponent implements OnInit {
   }
   ngOnInit(){
     this.blurcosto();
-    // this.imageObject = [
-    //    {
-    //    	image: 'https://drive.google.com/file/d/1x76AQdRmgwDOYdsTCsrri9IvcOqV-YHJ/view?usp=drivesdk',
-    //     thumbImage: 'https://lh3.googleusercontent.com/syp6fs8HPfAFHcJCtMf3atCH8eZlNRRjGZw6q_kYYVRoXHC3fD0AyGH1RQK0OTFGirN2PUdKdqs=s220',
-    //     alt: 'Image alt'
-    //    }
-    // ];
-    console.log(this.imageObject);
   }
   getlist(id:any){
     if(id){
@@ -109,6 +110,7 @@ export class SingleproductdetailsComponent implements OnInit {
               res.talla = {};
             }
             this.data = res;
+            this.urlwhat = `https://wa.me/${this.agente.indicativo || '54'}${this.agente.celular}?text=Hola Me Interesa este Producto ${this.data.titulo} codigo: ${this.data.codigo}`
             return this._producto.getGaleria({
               where:{
                 articulo: res.id

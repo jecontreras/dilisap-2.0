@@ -20,7 +20,7 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/admin/maps', title: 'Maps',  icon:'location_on', class: '' },
     // { path: '/admin/notifications', title: 'Notifications',  icon:'notifications', class: '' },
     { path: '/admin/clientes', title: 'Clientes',  icon:'group', rol: "superadmin", class: '' },
-    { path: '/admin/productos', title: 'Productos',  icon:'local_mall', rol: "superadmin", class: '' },
+    { path: '/admin/productos', title: 'Productos',  icon:'local_mall', rol: "admin", class: '' },
     { path: '/admin/categorias', title: 'Categorias',  icon:'style', rol: "superadmin", class: '' },
     { path: '/admin/marcas', title: 'Marcas',  icon:'class', rol: "superadmin", class: '' },
     { path: '/admin/color', title: 'Color',  icon:'invert_colors', rol: "superadmin", class: '' },
