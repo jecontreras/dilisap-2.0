@@ -156,7 +156,7 @@
                           <label for="formGroupExampleInput">Codigo</label>
                           <input type="text" [disabled]="this._model.user.rol !== 'super admin'"
                             (blur)="blur('codigo')"
-                            class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="data.codigo">
+                            class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="data.codigo" disabled>
                         </div>
                         <div class="form-group col">
                           <label for="formGroupExampleInput">Empresa</label>
@@ -187,6 +187,60 @@
                             <option value="revisando">Revision</option>
                             <option value="inactivo">Inactivo</option>
                           </select>
+                        </div>
+                      </div>
+                      <div class="form-column" *ngIf="data.id" >
+                        <div
+                          class="page-title text-center"
+                        >
+                            <h5>Usuario principal</h5>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group">
+                            <label for="formGroupExampleInput">Username</label>
+                            <input type="text"
+                              (blur)="blur('username')"
+                              class="form-control" placeholder="nombre unico / avatar" [(ngModel)]="user.username">
+                          </div>
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Nombre</label>
+                            <input type="text"
+                              (blur)="blur('lastname')"
+                              class="form-control" placeholder="Nombre del Usuario" [(ngModel)]="user.lastname">
+                          </div>
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Password</label>
+                            <input type="password"
+                              (blur)="blur('password')"
+                              class="form-control" placeholder="Password de Usuario" [(ngModel)]="user.password">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Email</label>
+                            <input type="email"
+                              (blur)="blur('email')"
+                              class="form-control" placeholder="Email del Usuario" [(ngModel)]="user.email">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                              <label for="formGroupExampleInput">Celular</label>
+                              <input type="celular"
+                                (blur)="blur('celular')"
+                                class="form-control" placeholder="Celular del Usuario" [(ngModel)]="user.celular">
+                            </div>
+                            <div class="form-group col">
+                                <label for="formGroupExampleInput">Pais</label>
+                                <input type="pais"
+                                  (blur)="blur('pais')"
+                                  class="form-control" placeholder="pais del Usuario" [(ngModel)]="user.pais">
+                              </div>
+                          </div>
+                        <div class="form-row" *ngIf="!user.id">
+                          <div class="page-title text-center">
+                            <button type="button" (click)="usersaved()" class="btn btn-primary">Registrar</button>
+                          </div>
                         </div>
                       </div>
                       <div class="form-row" *ngIf="data.id">
@@ -235,46 +289,6 @@
                                   </button>
                                 </div>
                               </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-column" *ngIf="data.id && this.user.rol.nombre === 'super admin'">
-                        <div
-                          class="page-title text-center"
-                        >
-                            <h5>Usuario principal</h5>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group">
-                            <label for="formGroupExampleInput">Username</label>
-                            <input type="text"
-                              (blur)="blur('username')"
-                              class="form-control" placeholder="nombre unico / avatar" [(ngModel)]="user.username">
-                          </div>
-                          <div class="form-group col">
-                            <label for="formGroupExampleInput">Nombre</label>
-                            <input type="text"
-                              (blur)="blur('lastname')"
-                              class="form-control" placeholder="Nombre del Usuario" [(ngModel)]="user.lastname">
-                          </div>
-                          <div class="form-group col">
-                            <label for="formGroupExampleInput">Password</label>
-                            <input type="password"
-                              (blur)="blur('password')"
-                              class="form-control" placeholder="Password de Usuario" [(ngModel)]="user.password">
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group col">
-                            <label for="formGroupExampleInput">Email</label>
-                            <input type="email"
-                              (blur)="blur('email')"
-                              class="form-control" placeholder="Email del Usuario" [(ngModel)]="user.email">
-                          </div>
-                        </div>
-                        <div class="form-row" *ngIf="!user.id">
-                          <div class="page-title text-center">
-                            <button type="button" (click)="usersaved()" class="btn btn-primary">Registrar</button>
                           </div>
                         </div>
                       </div>

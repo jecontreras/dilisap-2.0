@@ -349,13 +349,21 @@
                   <option value="usado">Usado</option>
                 </select>
               </div>
-              <div class="form-group col-sm" *ngIf="disabledinit">
+              <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
+                  <label for="">Tienda</label>
+                  <select class="custom-select" [(ngModel)]="data.empresa" (blur)="blur('empresa', false)">
+                      <option 
+                        *ngFor="let em of listempresa"
+                        [value]="em.id">
+                          {{ em.empresa }}
+                      </option>
+                  </select>
+              </div>
+              <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
                 <label for="formGroupExampleInput">Opcion</label>
                 <select class="custom-select"  (blur)="blur('opcion', false)" [(ngModel)]="data.opcion" required>
-                  <option value="activo" *ngIf="user.rol.nombre === 'super admin' || data.opcion==='activo'">Activo</option>
-                  <option value="revisando">Revisando</option>
+                  <option value="activo">Activo</option>
                   <option value="inactivo">Inactivo</option>
-                  <option value="rechazado">Rechazado</option>
                 </select>
               </div>
               <div class="form-group col-sm" *ngIf="disabledinit">
@@ -366,17 +374,23 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
                 <label for="formGroupExampleInput">Costo del Producto</label>
                 <input type="number"
                   (blur)="blur('costocompra', false)"
                   class="form-control" placeholder="Costo del Producto" [(ngModel)]="data.costocompra" required>
               </div>
-              <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de Venta</label>
                 <input type="number"
                   (blur)="blur('costoventa', false)"
                   class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costoventa" required>
+              </div>
+              <div class="form-group col-sm">
+                <label for="formGroupExampleInput">Costo de Comision</label>
+                <input type="number"
+                  (blur)="blur('costocomision', false)"
+                  class="form-control" placeholder="Costo de la Comison del Producto tu ganancia" [(ngModel)]="data.costocomision" required>
               </div>
               <div class="form-group col-sm" *ngIf="disabledinit">
                 <div class="form-group col-sm p-3">

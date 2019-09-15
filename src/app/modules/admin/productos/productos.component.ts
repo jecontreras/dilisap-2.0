@@ -114,14 +114,14 @@ export class ProductosComponent implements OnInit {
   ) {
     this.cuerpo = _producto;
     this.user = this._model.user;
-    console.log(this.user);
-    // this.user.empresas = {};
+    // console.log(this.user);
+    this.user.empresas = {};
     // console.log(this.user);
     this.getEmpresas();
-    this.getEmpresa();
     this.getmercados();
   }
   ngOnInit() {
+    this.getEmpresa();
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
@@ -218,7 +218,7 @@ export class ProductosComponent implements OnInit {
       ];
     }else{
       delete this.query.where.or;
-      if(this._model.user.rol.nombre === "super admin")if(this.query.where.empresa === 'none')delete this.query.where.empresa;
+      if(this._model.user.rol.nombre === "super admin")if(this.query.where.empresa === 'none') delete this.query.where.empresa;
     }
     this.list = [];
     // console.log(this.query);
@@ -354,7 +354,8 @@ export class ProductosComponent implements OnInit {
         opt.colores = {};
         this.clone = _.clone(opt);
         this.data = opt;
-        // console.log(this.data);
+        this.data.empresa = this.data.empresa.id;
+        // console.log(this.data, this.listempresa);
         this.getGaleria();
         this.buscaretiquete();
         this.populatelist();

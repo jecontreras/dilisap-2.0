@@ -26,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/admin/color', title: 'Color',  icon:'invert_colors', rol: "superadmin", class: '' },
     { path: '/admin/tallas', title: 'Tallas',  icon:'pregnant_woman', rol: "superadmin", class: '' },
     { path: '/admin/factura', title: 'Factura',  icon:'local_grocery_store', rol: "superadmin", class: '' },
-    { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "admin", class: '' },
+    { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "superadmin", class: '' },
     { path: '/admin/mercados', title: 'Mercados',  icon:'pageview', rol: "superadmin", class: '' },
     { path: '/admin/configuracion', title: 'Configuracion',  icon:'confirmation_number', rol: "superadmin", class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },

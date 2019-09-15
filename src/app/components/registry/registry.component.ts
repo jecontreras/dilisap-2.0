@@ -66,18 +66,19 @@ export class RegistryComponent implements OnInit {
     this.listpais = paises;
     // console.log(this.listdepartamento);
     this.registerForm = this.formBuilder.group({
-      tipocuenta: ["true"],
+      tipocuenta: ["false"],
       nameempresa: [''],
       name: ['', Validators.required],
       username: ['', Validators.required],
       lastname: [''],
       email: ['', Validators.required],
       celular: [''],
+      rol: ['admin'],
       indicativo: ["57"],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirpassword: ['', [Validators.required, Validators.minLength(6)]],
       pais: ['Colombia'],
-      empresa: ['5d5e16504202ad2ac858017c'],
+      empresa: ['5d62b73f5a38bf00174cbac4'],
       departamento: [''],
       ciudad: [''],
       direccion: [''],

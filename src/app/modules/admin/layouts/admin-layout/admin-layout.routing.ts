@@ -54,8 +54,8 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'color',          component: ColorComponent},
       { path: 'color/:id',      component: ColorComponent},
       { path: 'configuracion',  component: ConfiguracionComponent},
-      { path: '',               redirectTo: 'productos'},
-      { path: '**',             component: ProductosComponent }
+      { path: '',               redirectTo: 'user-profile'},
+      { path: '**',             component: UserProfileComponent }
     ]
   }
 ];
