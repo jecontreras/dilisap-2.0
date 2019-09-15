@@ -114,7 +114,8 @@ export class ProductosComponent implements OnInit {
   ) {
     this.cuerpo = _producto;
     this.user = this._model.user;
-    this.user.empresas = {};
+    console.log(this.user);
+    // this.user.empresas = {};
     // console.log(this.user);
     this.getEmpresas();
     this.getEmpresa();
@@ -235,7 +236,7 @@ export class ProductosComponent implements OnInit {
     this.query.skip = paginate.pageIndex;
     if(!this.query.where.empresa){
       this.query.where.empresa = this.user.empresa;
-      if(this.user.rol.nombre === "super admin"){
+      if(this.user.rol.nombre === "super admin" || this.user.rol.nombre === "admin"){
         delete this.query.where.empresa;
       }
     }
@@ -625,16 +626,18 @@ export class ProductosComponent implements OnInit {
         }
       }
       // console.log(data);
-      this._producto.edit(data)
-      .subscribe(
-        (res: any)=> {
-          // console.log(res);
-          if(res){
-            this.list.push(res);
-            this._tools.openSnack('Actualizado '+obj, '', false);
+      if(this.user.rol.nombre === 'super admin'){
+        this._producto.edit(data)
+        .subscribe(
+          (res: any)=> {
+            // console.log(res);
+            if(res){
+              this.list.push(res);
+              this._tools.openSnack('Actualizado '+obj, '', false);
+            }
           }
-        }
-      );
+        );
+      }
     }
   }
 
@@ -691,12 +694,14 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  datafiles(ev: any) {
+  datafiles(ev: any, opt) {
     // console.log(ev);
     if(ev){
       this.datafile = ev.target.files;
       // console.log(this.datafile);
-      this.file(false);
+      if(opt){
+        this.file(false);
+      }
     }
   }
   file(data: any) {

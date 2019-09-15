@@ -170,24 +170,28 @@ export class RegistryComponent implements OnInit {
   get f() { return this.registerForm.controls; }
   onSubmit() {
     // console.log(this.registerForm.value, this.disabledemail, this.disabledusername);
-    if (this.disabledemail && this.disabledusername && this.registerForm.value.departamento && this.registerForm.value.pais
-      && this.registerForm.value.ciudad && this.registerForm.value.password === this.registerForm.value.confirpassword) {
+    if (this.disabledemail && this.disabledusername && this.registerForm.value.celular && this.registerForm.value.indicativo && this.registerForm.value.pais
+      &&  this.registerForm.value.password === this.registerForm.value.confirpassword) {
         this.logead = !this.logead;
       this.userService.register(this.registerForm.value).subscribe(
         (response: any) => {
           // console.log(response);
           if (response.status === 200) {
             this.verificacion = true;
-            if(this.registerForm.value.tipocuenta){
-              swal('Ok!',
-              'Registro! Estas En Modo de Aprobacion esta Funciona Tardara Maximo 2 Dias En Activar Tu Cuenta: '
-              + this.registerForm.value.nameempresa, 'success');
-            }else{
-              swal('Ok!',
-              // 'Registro completo! Falta Que Actives Tu Cuenta En Gmail Te Enviamos Un Correo de Verificacion a Tu Email: '
-              'Registrado '
-              + this.registerForm.value.email, 'success');
-            }
+            // if(this.registerForm.value.tipocuenta){
+            //   swal('Ok!',
+            //   'Registro! Estas En Modo de Aprobacion esta Funciona Tardara Maximo 2 Dias En Activar Tu Cuenta: '
+            //   + this.registerForm.value.nameempresa, 'success');
+            // }else{
+            //   swal('Ok!',
+            //   // 'Registro completo! Falta Que Actives Tu Cuenta En Gmail Te Enviamos Un Correo de Verificacion a Tu Email: '
+            //   'Registrado '
+            //   + this.registerForm.value.email, 'success');
+            // }
+            swal('Ok!',
+            // 'Registro completo! Falta Que Actives Tu Cuenta En Gmail Te Enviamos Un Correo de Verificacion a Tu Email: '
+            'Registrado '
+            + this.registerForm.value.email, 'success');
             if(response.data.empresa){
               response.data.objempresa = response.data.empresa;
               response.data.empresa = response.data.empresa.id;

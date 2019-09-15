@@ -97,7 +97,7 @@ export class FactoryModelService {
             } else {
               // localStorage.clear();
               localStorage.removeItem('user');
-              this.router.navigate(['login']);
+              this.router.navigate(['tienda']);
             }
           },
           (error: any) => {
@@ -105,7 +105,7 @@ export class FactoryModelService {
             this._auth.canActivate();
             // localStorage.clear();
             localStorage.removeItem('user');
-            this.router.navigate(['login']);
+            this.router.navigate(['tienda']);
           }
         );
     }

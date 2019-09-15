@@ -12,7 +12,7 @@ declare interface RouteInfo {
     rol: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/admin/dashboard', title: 'Inicio',  icon: 'dashboard', rol: "varios", class: '' },
+    // { path: '/admin/dashboard', title: 'Inicio',  icon: 'dashboard', rol: "varios", class: '' },
     { path: '/admin/user-profile', title: 'Perfil',  icon:'person', rol: "varios", class: '' },
     // { path: '/admin/table-list', title: 'Table List',  icon:'content_paste', class: '' },
     // { path: '/admin/typography', title: 'Typography',  icon:'library_books', class: '' },

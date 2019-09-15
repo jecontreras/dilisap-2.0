@@ -90,7 +90,7 @@ url(./assets/img/imgaes6.jpg);
                           value="{{item.phone_code}}"
                           *ngFor="let item of listindicativo"
                         >
-                          {{ item.nombre + " +" + item.phone_code }}
+                          {{ item.nombre + " (+" + item.phone_code +")"}}
                         </option>
                      </select>
                    </div>
@@ -152,22 +152,6 @@ url(./assets/img/imgaes6.jpg);
                       </div>
                    </div>
                    <!-- <div class="md-form col-md-6">
-                     <label for="Form-email5" class="text-white">Departamento</label>
-                     <select
-                        class="custom-select"
-                        formControlName="departamento"
-                        (blur)="blurdepartamento()"
-                        style="color: black;"
-                     >
-                       <option
-                          value="{{item.departamento}}"
-                          *ngFor="let item of listdepartamento"
-                        >
-                          {{ item.departamento}}
-                        </option>
-                     </select>
-                   </div> -->
-                   <!-- <div class="md-form col-md-6">
                      <label for="Form-email5" class="text-white" >Ciudad Donde Vives</label>
                       <select
                          class="custom-select"
@@ -201,7 +185,7 @@ url(./assets/img/imgaes6.jpg);
                           </option>
                      </select>
                    </div> -->
-                   <div class="md-form col-md-12" *ngIf="this.registerForm.value.tipocuenta">
+                   <div class="md-form col-md-6" *ngIf="this.registerForm.value.tipocuenta">
                      <label for="Form-name5">Nombre de tu Tienda</label>
                      <input
                         type="text"
@@ -212,6 +196,21 @@ url(./assets/img/imgaes6.jpg);
                         class="form-control white-text"
                     >
                    </div>
+                   <div class="md-form col-md-6">
+                      <label for="Form-email5" class="text-white">Pais</label>
+                      <select
+                         class="custom-select"
+                         formControlName="pais"
+                         style="color: black;"
+                      >
+                        <option
+                           value="{{item.nome_pais}}"
+                           *ngFor="let item of listpais"
+                         >
+                           {{ item.nome_pais}}
+                         </option>
+                      </select>
+                    </div>
                    <div class="md-form col-md-12" *ngIf="this.registerForm.value.tipocuenta">
                      <label for="Form-name5">Direccion</label>
                      <input

@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.user = {};
     this.app = this._model.app;
     if (this._authSrvice.isLoggedIn()) {
-      this.router.navigate(['admin/dashboard']);
+      this.router.navigate(['admin']);
     }
     this.route.params.subscribe(params => {
       // console.log(params);
@@ -135,13 +135,13 @@ export class LoginComponent implements OnInit {
       this._userService.login(this.loginForm.value).subscribe(
         (response: any) => {
           if (response.success) {
-            // console.log(response);
+            console.log(response);
             if(response.data.empresa){
               response.data.objempresa = response.data.empresa;
               response.data.empresa = response.data.empresa.id;
             }
             localStorage.setItem('user', JSON.stringify(response.data));
-            this.router.navigate(['admin/dashboard']);
+            this.router.navigate(['admin']);
           } else {
             this.logead = false;
             swal( 'Oops' ,  'El usuario o la contraseña son incorrectos!' ,  'error' );

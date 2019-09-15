@@ -38,7 +38,7 @@
             color="primary"
             placeholder="guardar"
             matTooltip="Guardar Producto"
-            *ngIf="disable && !data.id"
+            *ngIf="disable && !data.id && user.rol.nombre === 'super admin'"
             [disabled]="!disablesaved"
             (click)="saved()"
           >
@@ -59,6 +59,7 @@
               mat-mini-fab
               color="accent"
               (click)="multiple = !multiple; multiple === false ? listgroup= []:false;"
+              *ngIf="user.rol.nombre === 'super admin'"
               class="btn btn-primary">
               <span *ngIf="!multiple"
                 matTooltip="varios formulario"
@@ -75,7 +76,7 @@
             <button
               mat-mini-fab
               color="accent"
-              *ngIf="multiple"
+              *ngIf="multiple && user.rol.nombre === 'super admin'"
               type="button"
               (click)="clickmultiple()"
               class="btn btn-primary">
@@ -90,7 +91,7 @@
           >
             <i
               class="material-icons"
-              *ngIf="!disable"
+              *ngIf="!disable && user.rol.nombre === 'super admin'"
             >
               add_circle_outline
             </i>
@@ -184,6 +185,7 @@
                             mat-mini-fab
                             color="warn"
                             placeholder="eliminar"
+                            *ngIf="user.rol.nombre === 'super admin'"
                             (click)="dropProduct(item, idx)"
                           >
                             <i
@@ -256,8 +258,8 @@
                 <img  [src]="data.foto" alt="none" width="200px" class="rounded"
                   height="180px">
               </div>
-              <div class="row justify-content-md-center p-1">
-                <input type="file" [(ngModel)]="img" (blur)="datafiles($event)" accept="image/png, image/jpeg">
+              <div class="row justify-content-md-center p-1" *ngIf="user.rol.nombre === 'super admin'">
+                <input type="file" [(ngModel)]="img" (blur)="datafiles($event, true)" accept="image/png, image/jpeg">
               </div>
               <!-- <div class="row justify-content-md-center" *ngIf="data.id">
                 <button
@@ -428,7 +430,7 @@
                   <label for="formGroupExampleInput">Descripcion Corta</label>
                   <textarea class="form-control" maxlength="100" minlength="5" (blur)="blur('descripcioncorta', false)" rows="3" [(ngModel)]="data.descripcioncorta" required></textarea>
                 </div> -->
-                <div class="d-flex justify-content-end" *ngIf="data.id">
+                <div class="d-flex justify-content-end" *ngIf="data.id && user.rol.nombre === 'super admin'">
                   <button type="button" (click)="blur('descripcioncorta', false)" class="btn btn-success">Actualizar</button>
                 </div>
               </div>
@@ -438,7 +440,7 @@
                 <label for="formGroupExampleInput">Descripcion</label>
                 <textarea class="form-control" (blur)="blur('descripcion', false)" rows="3" [(ngModel)]="data.descripcion" required></textarea>
               </div> -->
-              <div class="d-flex justify-content-end" *ngIf="data.id">
+              <div class="d-flex justify-content-end" *ngIf="data.id && user.rol.nombre === 'super admin'">
                 <button type="button" (click)="blur('descripcion', false)" class="btn btn-success">Actualizar</button>
               </div>
             </div>
@@ -690,13 +692,13 @@
                 >
                     Galeria
                 </span>
-                <div class="row" *ngIf="listgaleria.length <=5">
+                <div class="row" *ngIf="listgaleria.length <=5 && user.rol.nombre === 'super admin'">
                   <div class="row p-1">
                       <!-- multiple="true" -->
                     <input
                       type="file"
                       [(ngModel)]="img"
-                      (blur)="datafiles($event)"
+                      (blur)="datafiles($event, false)"
                       accept="image/png, image/jpeg"
                     >
                   </div>
@@ -742,7 +744,7 @@
                             </div> -->
                         </div>
                     </div>
-                    <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center" *ngIf="user.rol.nombre === 'super admin'">
                       <div class="d-flex justify-content-center">
                         <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-success">Foto Principal</button>
                       </div>
@@ -759,7 +761,7 @@
                 </div>
               </div>
             </div>
-            <div class="column" *ngIf="data.id">
+            <div class="column" *ngIf="data.id && user.rol.nombre === 'super admin'">
               <nav
                 class="navbar navbar-light bg-light row card-header card-header-danger"
               >
@@ -1098,7 +1100,7 @@
             class="d-flex justify-content-end"
           >
             <button placeholder="guardar"
-                    *ngIf="disable && !data.id"
+                    *ngIf="disable && !data.id && user.rol.nombre === 'super admin'"
                     [disabled]="!disablesaved"
                     (click)="saved()"
                     matTooltip="Guardar Producto" type="button" class="btn btn-success">Guardar Producto

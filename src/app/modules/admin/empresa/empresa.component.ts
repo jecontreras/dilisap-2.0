@@ -129,7 +129,7 @@ export class EmpresaComponent implements OnInit {
     this.query.skip = paginate.pageIndex;
 
     if(obj){
-      this.query.where.id = obj;
+      this.query.where.id = obj.id;
       this.query.limit = 1;
     }
     // this.query.where.estado = 'activo';
