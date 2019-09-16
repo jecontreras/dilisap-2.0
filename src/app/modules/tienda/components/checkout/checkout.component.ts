@@ -254,7 +254,7 @@ export class CheckoutComponent implements OnInit {
     // data.x_signature = sha(data.x_cust_id_cliente+data.x_key+data.x_ref_payco+data.x_transaction_id+data.x_amount+data.x_currency_code);
     // console.log(data);
     const handler: any = ePayco.checkout.configure({
-      key: GLOBAL.epayconum || "90506d3b72d22b822f53b54dcf22dc3a",
+      key: GLOBAL.epayconum || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       test: GLOBAL.epayco || false
     });
     handler.open(data);
