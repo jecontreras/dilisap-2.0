@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   menus: any = [];
   public app:any = {};
-  public url:any = '';
+  public user:any = '';
 
   constructor(
     private _model: FactoryModelService
@@ -56,8 +56,8 @@ export class SidebarComponent implements OnInit {
     ;
     this._model.loadUser();
     var menuItems: any = [];
-    console.log(user);
-    this.url = user.objempresa.codigo;
+    // console.log(user);
+    this.user = user;
     if(user){
       if(user.objempresa){
         if(user.objempresa.estado === 'activo'){

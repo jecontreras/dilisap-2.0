@@ -66,6 +66,7 @@ export class SingleproductdetailsComponent implements OnInit {
     this.listdepartamento = departamento;
     this.Store.select('name')
     .subscribe((name)=>{
+      // console.log(name);
       this.agente = name;
     });
     this.route.params.subscribe(params => {
@@ -110,7 +111,7 @@ export class SingleproductdetailsComponent implements OnInit {
               res.talla = {};
             }
             this.data = res;
-            this.urlwhat = `https://wa.me/${this.agente.indicativo || '54'}${this.agente.celular || '3133637978'}?text=Hola Me Interesa este Producto ${this.data.titulo} codigo: ${this.data.codigo}`
+            this.urlwhat = `https://wa.me/${this.agente.indicativo || '57'}${this.agente.celular || '3133637978'}?text=Hola Me Interesa este Producto ${this.data.titulo} codigo: ${this.data.codigo}`
             return this._producto.getGaleria({
               where:{
                 articulo: res.id

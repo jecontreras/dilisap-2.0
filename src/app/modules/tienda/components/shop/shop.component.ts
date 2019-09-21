@@ -38,6 +38,9 @@ export class ShopComponent implements OnInit {
   public disablecolor: boolean = false;
   public disablecategoria: boolean = false;
 
+
+  public agente: any = {};
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -52,6 +55,11 @@ export class ShopComponent implements OnInit {
     this.data = {};
     this.getmercados(null);
     this.initial();
+
+    this.sotre.select('name')
+    .subscribe((name)=>{
+      this.agente = name;
+    });
   }
   ngOnInit(){
 
@@ -77,9 +85,10 @@ export class ShopComponent implements OnInit {
            this.query.sort ='costopromosion DESC';
            this.getProduct(null, null);
          }else{
-           this.getTienda();
+          //  this.getTienda();
            // this.searcht.txt = this.slug;
            // this.getsearh();
+           this.getAgente(this.slug);
          }
        }else{
          const
@@ -96,6 +105,24 @@ export class ShopComponent implements OnInit {
        }
     });
   }
+  getAgente(id){
+    return this._User.get({
+      where:{
+        codigo: id,
+      }
+    })
+    .subscribe(
+      (user:any)=>{
+        // console.log(user);
+        user = user.data[0];
+        if(user){
+          const accion = new DataappAction(user);
+          this.sotre.dispatch( accion );
+        }
+        this.getProduct(null, null);
+      });
+  }
+
   getmercados(obj: any){
     const
       query: any = {
@@ -175,26 +202,10 @@ export class ShopComponent implements OnInit {
       })
       .subscribe(
         (res: any)=>{
-          // console.log(res);
+          console.log(res);
           res = res.data[0];
           if(res){
             this.data = res;
-            return this._User.get({
-              where:{
-                empresa: res.id,
-                rol: "admin"
-              }
-            })
-            .subscribe(
-              (user:any)=>{
-                // console.log(user);
-                user = user.data[0];
-                if(user){
-                  const accion = new DataappAction(user);
-                  this.sotre.dispatch( accion );
-                }
-                this.getProduct(null, null);
-              });
           }else{
             this.disableindex = true;
             this.getProduct(null, null);
