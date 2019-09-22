@@ -83,10 +83,8 @@ export class FactoryModelService {
       })
         .subscribe(
           (response: any) => {
-            // console.log(response);
             response = response.data[0];
             if (response) {
-              // localStorage.clear();
               if(response.empresa){
                 response.objempresa = response.empresa;
                 response.empresa = response.empresa.id;

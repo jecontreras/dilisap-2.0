@@ -13,7 +13,7 @@
 
         <div class="contact-address mt-50">
             <p><span>Dirección:</span>{{ app.direccion || 'Calle 23 # 14-70 brisas de los molinos'}}</p>
-            <p><span>Telefono:</span> {{ app.telefono || '+57 3228576900'}}</p>
+            <p><span>Telefono:</span> {{ "+ " + agente.indicativo + " " + agente.celular || '+57 3228576900'}}</p>
             <p><span>Email:</span> {{ app.email || 'joseeduar147@gmail.com'}}</p>
         </div>
     </div>

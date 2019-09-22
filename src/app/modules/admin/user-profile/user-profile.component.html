@@ -17,7 +17,7 @@
                               </div>
                               <div class="col-md">
                                   <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Username / Avatar" [(ngModel)]="data.username">
+                                    <input matInput placeholder="Username / Avatar" disabled [(ngModel)]="data.username">
                                   </mat-form-field>
                               </div>
                           </div>
@@ -44,6 +44,23 @@
                                     <input matInput placeholder="Correo electronico" type="email" [(ngModel)]="data.email" (blur)="edit('email')">
                                   </mat-form-field>
                               </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md">
+                                <mat-form-field>
+                                    <mat-label>Indicativo</mat-label>
+                                    <mat-select [(ngModel)]="data.indicativo" (blur)="edit('indicativo')">
+                                      <mat-option *ngFor="let item of listindicativo" [value]="item.phone_code">
+                                          {{ item.nombre + " (+" + item.phone_code +")"}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                             </div>
+                             <div class="col-md">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Numero de Celular" type="text" [(ngModel)]="data.celular" (blur)="edit('celular')">
+                                </mat-form-field>
+                            </div>
                           </div>
                           <div class="row">
                               <div class="col-md-4">
