@@ -3,6 +3,7 @@ import { FactoryModelService } from './../../../services/factory-model.service';
 import { UsuariosService } from './../../../services/usuarios.service';
 import { ToolsService } from './../../../services/tools.service';
 import { ArchivoService } from './../../../services/archivo.service';
+import { Indicativo } from 'app/Json/indicativo';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 
@@ -20,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   public img: any = [];
   public carga: boolean= true;
   public datafile: any;
+  public listindicativo: any = Indicativo;
 
   constructor(
     private _usuarios: UsuariosService,
