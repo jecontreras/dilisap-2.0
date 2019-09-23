@@ -32,4 +32,25 @@ export class CartService {
   edit(query:any){
     return this._model.update('cart', query.id, query);
   }
+
+  cart_articulos(query:any, res:any){
+    for(let item of query.articulo){
+      if(item.id){
+        let data = {
+          articulo: item.id,
+          cart: res.id,
+          cantidad: item.cantidad,
+          valor: item.costo,
+          comision: item.costo_comison,
+          empresa: item.empresa.id
+        };
+        return this.cart_next(data);
+      }
+    }
+  }
+  cart_next(query){
+    return this._model.create('cartarticulo', query)
+    .subscribe(res=>console.log(res));
+  }
+
 }

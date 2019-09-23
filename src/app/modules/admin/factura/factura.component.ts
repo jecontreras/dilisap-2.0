@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolsService } from '../../../services/tools.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TiendasService } from './../../../services/tiendas.service';
-import { MercadoService } from './../../../services/mercados.service';
-import { UsuariosService } from './../../../services/usuarios.service';
-import { ToolsService } from './../../../services/tools.service';
-import { ArchivoService } from './../../../services/archivo.service';
-import { FactoryModelService } from './../../../services/factory-model.service';
-import { CartService } from './../../../services/factura.service';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
-import { GLOBAL } from './../../../services/global';
+import { GLOBAL } from '../../../services/global';
+import { FactoryModelService } from '../../../services/factory-model.service';
+import { CartService } from 'app/services/cart.service';
+import { ProductoService } from 'app/services/producto';
+import { UsuariosService } from 'app/services/usuarios.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,53 +21,42 @@ export class FacturaComponent implements OnInit {
   public data: any = {};
   public list: any = [];
   public clone: any = [];
-  public listmercados: any = [];
   public user: any = {};
-  public img: any = [];
-  public datafile: any;
-  public carga: boolean= true;
-  public listfact: any = [];
   public count: any = 0;
   public searcht: any ={
     txt: ''
   };
   public query: any = {where:{}};
-
+  public list_product: any = [
+    {}
+  ]
   constructor(
+    private _factura: CartService,
+    private _tools: ToolsService,
+    private _usuer: UsuariosService,
+    private _producto: ProductoService,
     private route: ActivatedRoute,
     private router: Router,
     private _model: FactoryModelService,
-    private _archivos: ArchivoService,
-    private _tiendas: TiendasService,
-    private _mercados: MercadoService,
-    private _user: UsuariosService,
-    private _cart: CartService,
-    private _tools: ToolsService
   ) { }
 
   ngOnInit() {
     this.user = this._model.user;
-    // console.log(this.user);
-    this.route.params.subscribe(params => {
-      // console.log(params);
-       if(params['id']!=null){
-        this.getlist(params['id'], null);
-      }else{
-        const
-          paginate: any = {
-            pageIndex: 0,
-            pageSize: 10
-          }
-        ;
-        this.getlist(null, paginate);
+    if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
+      this.router.navigate(['admin/dashboard']);
+    }
+    const
+      paginate: any = {
+        pageIndex: 0,
+        pageSize: 10
       }
-    });
+    ;
+    this.getlist(paginate);
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 0;
     ev.pageSize = 10;
-    this.getlist(null, ev);
+    this.getlist(ev);
   }
   getsearh(){
     const
@@ -81,62 +68,7 @@ export class FacturaComponent implements OnInit {
     if(this.searcht.txt){
       this.query.where.or = [
         {
-          cantidad:{
-            contains: parseInt(this.searcht.txt) || ''
-          }
-        },
-        {
-          total:{
-            contains: parseInt(this.searcht.txt) || ''
-          }
-        },
-        {
-          subtotal:{
-            contains: parseInt(this.searcht.txt) || ''
-          }
-        },
-        {
-          estado:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          ciudad:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          codigo:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          fechaentrega:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          fechamaxima:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          pais:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          provivencia:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          direccion1:{
-            contains: this.searcht.txt || ''
-          }
-        },
-        {
-          codigopostal:{
+          color:{
             contains: this.searcht.txt || ''
           }
         }
@@ -146,131 +78,87 @@ export class FacturaComponent implements OnInit {
     }
     this.list = [];
     // console.log(this.query);
-    this.getlist(null, paginate);
+    this.getlist(paginate);
   }
-  getlist(obj: any, paginate: any){
-    if(!paginate){
-      paginate = {
-        pageIndex: 0,
-        pageSize: 10
-      };
+  getlist(paginate: any){
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
+    //console.log(this.query);
+    // this.query.where.estado = 'activo';
+    if(this.user.rol.nombre !== "super admin"){
+      this.query.where.user = this.user.id;
     }
-    if((this._model.user.rol.nombre === "admin")){
-      this.query.where.empresa = this._model.user.empresa;
-    }else{
-      this.query.where.cartpadre= null;
-      if(this._model.user.rol.nombre === "usuario"){
-        this.query.where.user = this._model.user.id;
+    this.query.sort ='createdAt DESC';
+    this._factura.get(this.query)
+    .subscribe(
+      (res: any)=>{
+        // console.log(res.data);
+        this.count = res.count;
+        this.list = _.unionBy(this.list || [], res.data, 'id');
       }
-    }
-    if(obj){
-      if(this._model.user.rol.nombre === "super admin" || this._model.user.rol.nombre === "usuario"){
-        this.query.where.cartpadre = obj;
-      }
-      return this._cart.get({
-        where:{
-          id: obj
-        },
-        sort: 'createdAt DESC'
-      })
-      .subscribe(
-        (car: any)=>{
-          // console.log(car);
-          car = car.data[0];
-          if(car){
-            if(!car.cartpago){
-              car.cartpago = {};
-            }
-            this.data = car;
-            // console.log(query, this._model.user.empresa);
-            return this._cart.get(this.query)
-            .subscribe(
-              (res: any)=>{
-                // console.log(res);
-                res = res.data;
-                _.forEach(res, (item)=>{
-                  return this._model.query('cart/getcompleto',{
-                    where: {
-                      id: item.id
-                    }
-                  })
-                  .subscribe(
-                    (res: any)=>{
-                      res = res.data;
-                      // console.log(res);
-                      if(res){
-                        // this.listfact.push(res);
-                        this.add(res);
-                      }
-                    }
-                  )
-                  ;
-                })
-                ;
-              }
-            )
-            ;
-          }
-
-        }
-      )
-    }else{
-      // console.log(query, paginate);
-      this.query.limit = paginate.pageSize;
-      this.query.skip = paginate.pageIndex;
-      //console.log(this.query);
-      this.query.sort ='createdAt DESC';
-      return this._cart.get(this.query)
-      .subscribe(
-        (res: any)=>{
-          // console.log(res);
-          this.count = res.count;
-          this.list = _.unionBy(this.list || [], res.data, 'id');
-        }
-      )
-      ;
-    }
+    )
+    ;
   }
 
   add(data: any){
+    this.disable = !this.disable;
     if(data){
-      this.disable = true;
-      // console.log(data);
-      if(!data.pago){
-        data.pago = {};
-      }
-      data.clone = _.clone(data);
-      this.listfact.push(data);
-      // console.log(this.listfact);
-      // this.clone = _.clone(data);
-      // if(!data.pago){
-      //   data.pago = {};
-      // }
-      // this.data = data;
+      this.clone = _.clone(data);
+      this.get_art(data);
+      this.data = data;
+      // console.log(this.data);
     }else{
-      // this.disable = !this.disable;
       this.clone = {};
       this.data = {
-        empresa: this.user.empresa,
-        pago: {},
-        user: {}
+        codigo: this.codigo(),
+        user: {},
+        estado: "completado",
+        empresa: this.user.empresa
       };
-      this.router.navigate(['admin/factura']);
     }
   }
+  get_art(data){
+    return this._factura.getcart({
+      where:{
+        id: data.id
+      }
+    })
+    .subscribe(
+      (res:any)=>{
+        // console.log(res);
+        res = res.data;
+        if(res){
+          this.data = res;
+          this.list_product = [];
+          for(let item of res.articulo){
+            this.list_product.push({
+              codigo: item.articulo.codigo,
+              cantidad: item.cantidad,
+              costo: item.valor,
+              costo_comison: item.comision
+            });
+          }
+        }
+      }
+    );
+  }
+
+
   saved(){
-    const
+    this.data.articulo = this.list_product;
+    let
       query: any = this.data
     ;
-
-    if(query.talla && query.empresa){
-      query.slug = _.kebabCase(query.talla)
-      this._cart.saved(query)
+    if(query.user.id && this.user.rol.nombre === 'super admin'){
+      query.user = query.user.id;
+      this.conversiones();
+      this._factura.saved(query)
       .subscribe(
         (res: any)=>{
-          // console.log(res);
+          this._factura.cart_articulos(query, res)
           if(res){
             this.data = {};
+            this.list_product = [];
             this.list.push(res);
             swal("Completado!", "Agregado Correctamente!", "success");
             this.disable = !this.disable;
@@ -281,54 +169,112 @@ export class FacturaComponent implements OnInit {
       )
       ;
     }else{
-      swal("Fallo!", "Error Agrege un Titulo!", "error");
+      swal("Fallo!", "Error Agrege un Usuario!", "error");
     }
   }
-  blur(opt: string, item: any){
+  blur(opt: string){
     // console.log(opt, this.clone, this.data);
-    if(item){
-      if(item[opt] !== item.clone[opt]){
-        const
-          query : any = {
-            id: item.id
-          }
-          ;
-          query[opt] = item[opt];
-          if(query.id){
-            this._cart.edit(query)
-            .subscribe(
-              (res: any)=>{
-                // console.log(res);
-                if(res){
-                  this._tools.openSnack('Actualizado '+opt, 'Ok', false);
-                }
+    if(this.data[opt] !== this.clone[opt]){
+      const
+        query : any = {
+          id: this.data.id
+        }
+        ;
+        query[opt] = this.data[opt];
+        if(query.id){
+          this._factura.edit(query)
+          .subscribe(
+            (res: any)=>{
+              // console.log(res);
+              if(res){
+                this._tools.openSnack('Actualizado '+opt, 'Ok', false);
               }
-            )
-            ;
-          }
+            }
+          )
+          ;
+        }
+    }
+  }
+
+  get_product(idx: number){
+   let list_art = this.list_product[idx];
+   if(!list_art) return "no Encotrado";
+
+   if(list_art.codigo){
+    this.get_articulo(list_art.codigo)
+    .subscribe(
+     (articulo:any)=>{
+       articulo = articulo.data[0];
+       if(!articulo) {
+          this._tools.openSnack('Articulo no Encotrado','Error', false);
+          return "no Encontrado db" ;
+       }
+      //  console.log(articulo);
+       list_art = {
+         codigo: list_art.codigo,
+         cantidad: 1,
+         id: articulo.id,
+         empresa: articulo.empresa,
+         costo: articulo.costoventa,
+         costocomision: articulo.costocomision,
+         costo_comison: articulo.costocomision,
+         costo_art: articulo.costoventa,
+         costo_comison_art:articulo.costocomision,
+       };
+       this.list_product[idx] = list_art;
+       this.list_product.push({});
+       this._tools.openSnack('Producto Encontrado','Ok', false);
+       this.conversiones();
       }
-    }else{
-      if(this.data[opt] !== this.clone[opt]){
-        const
-          query : any = {
-            id: this.data.id
-          }
-          ;
-          query[opt] = this.data[opt];
-          if(query.id){
-            this._cart.edit(query)
-            .subscribe(
-              (res: any)=>{
-                // console.log(res);
-                if(res){
-                  this._tools.openSnack('Actualizado '+opt, 'Ok', false);
-                }
-              }
-            )
-            ;
-          }
+    );
+   }else{
+    this._tools.openSnack('Error Colocar Codigo del Producto','Error', false);
+   }
+
+  }
+  conversiones(){
+    let costo:number = 0;
+    let costo_comison:number = 0;
+    for(let item of this.list_product){
+      if(item.costo_comison_art && item.costo_art && item.cantidad){
+        // console.log(item)
+        item.costo = parseInt(item.costo_art) * parseInt(item.cantidad);
+        item.costo_comison = parseInt(item.cantidad)*parseInt(item.costo_comison_art);
+        costo+=parseInt(item.costo);
+        costo_comison+=parseInt(item.costo_comison);
       }
     }
+    this.data.total = costo;
+    this.data.costo_comision = costo_comison;
+  }
+  get_articulo(txt:string){
+    return this._producto.get({
+      where:{
+        codigo: txt
+      }
+    });
+  }
+  get_vendedor(){
+    // console.log(this.data.user.username)
+    return this._usuer.get({
+      where:{
+        username: this.data.user.username
+      }
+    })
+    .subscribe(
+      (user: any)=>{
+        // console.log(user);
+        user = user.data[0];
+        if(user){
+          this.data.user = user;
+        }else{
+          this._tools.openSnack('Vendedor no Encotrado','Error', false);
+        }
+      }
+    );
+  }
+  codigo() {
+    return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
   }
 
 }

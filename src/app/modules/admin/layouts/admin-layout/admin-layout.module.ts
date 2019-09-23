@@ -32,6 +32,8 @@ import {
   MatTooltipModule,
   MatSelectModule
 } from '@angular/material';
+import { Config_pagosComponent } from '../../config-pagos/config_pagos.component';
+import { GuiasComponent } from '../../guias/guias.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -64,6 +66,8 @@ import {
     ConfiguracionComponent,
     TallasComponent,
     EmpresaComponent,
+    GuiasComponent,
+    Config_pagosComponent,
     MercadosComponent
   ]
 })

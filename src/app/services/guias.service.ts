@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FactoryModelService } from './factory-model.service'
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class GuiasService {
   cuerpo: any = {};
   constructor(
     private _model: FactoryModelService
@@ -13,15 +12,12 @@ export class CartService {
     this.cuerpo = this._model;
   }
   get(query: any){
-    return this._model.query('cart', query);
+    return this._model.query('guias', query);
   }
   saved (query: any){
-    return this._model.create('cart', query);
+    return this._model.create('guias', query);
   }
-  getcart(query: any){
-    return this._model.query('cart/getcompleto', query);
-  }
-  edit(query: any){
-    return this._model.update('cart', query.id, query);
+  edit(query:any){
+    return this._model.update('guias', query.id, query);
   }
 }

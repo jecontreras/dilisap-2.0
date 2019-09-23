@@ -395,7 +395,7 @@
                 <label for="formGroupExampleInput">Costo de Comision</label>
                 <input type="number"
                   (blur)="blur('costocomision', false)"
-                  [disabled]="user.rol.nombre !== 'super admin'"
+                  [disabled]="true"
                   class="form-control" placeholder="Costo de la Comison del Producto tu ganancia" [(ngModel)]="data.costocomision" required>
               </div>
               <div class="form-group col-sm" *ngIf="disabledinit">

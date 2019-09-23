@@ -590,6 +590,7 @@ export class ProductosComponent implements OnInit {
   blur(obj: any, opt: boolean){
     // console.log(this.data);
     // console.log(obj);
+    
     if(obj === "talla"){
       const
         idx:any = _.findIndex(this.listtalla, ['id', this.data.talla])
@@ -620,10 +621,19 @@ export class ProductosComponent implements OnInit {
         }
       ;
       data[obj]=this.data[obj];
+      this.clone[obj]=this.data[obj];
       // console.log(data);
       if(obj === "costopromosion" || obj === "costoventa"){
         if(this.data.costopromosion){
           data.porcentajedes = this.data.costopromosion * 100 / this.data.costoventa;
+        }
+      }
+
+      if(obj === "costoventa"){
+        if(this.data.costoventa){
+          data.costocomision = this.data.costoventa * 7 / 100;
+          data.costocomision = parseFloat(data.costocomision);
+          this.data.costocomision = data.costocomision;
         }
       }
       // console.log(data);

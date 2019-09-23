@@ -20,6 +20,8 @@ import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
 import { AuthService } from './../../../../services/auth.service';
+import { Config_pagosComponent } from '../../config-pagos/config_pagos.component';
+import { GuiasComponent } from '../../guias/guias.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -54,6 +56,8 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'color',          component: ColorComponent},
       { path: 'color/:id',      component: ColorComponent},
       { path: 'configuracion',  component: ConfiguracionComponent},
+      { path: 'config_pagos',   component: Config_pagosComponent},
+      { path: 'guias',   component: GuiasComponent},
       { path: '',               redirectTo: 'user-profile'},
       { path: '**',             component: UserProfileComponent }
     ]
