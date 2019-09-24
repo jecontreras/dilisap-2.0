@@ -1,0 +1,441 @@
+<div class="main-content">
+    <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+        <mat-tab label="Pagos"> 
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger row">
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Pagos</h4>
+                          <p class="card-category" *ngIf="!disable_retiro"> Listado de Pagos</p>
+                          <p class="card-category" *ngIf="disable_retiro"> Agregar Pagos</p>
+                        </div>
+                        <div class="col p-1" *ngIf="!disable_retiro">
+                          <input type="text"
+                            style="color: white;"
+                            matTooltip="Buscador"
+                            class="form-control" placeholder="Buscar Cliente" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+                        </div>
+                        <div class="" *ngIf="!disable_retiro">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            matTooltip="Buscar"
+                            placeholder="Buscar" (click)="getsearh()">
+                            <i class="material-icons">search</i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="">
+                        <button
+                          mat-mini-fab
+                          placeholder="guardar"
+                          *ngIf="disable_retiro && !retiro_data.id"
+                          (click)="saved_retiro()"
+                        >
+                          <i class="material-icons">save</i>
+                        </button>
+                        <button
+                          mat-mini-fab
+                          (click)="add(false, true)"
+                          placeholder="agregar"
+                        >
+                          <i
+                            class="material-icons"
+                            *ngIf="!disable_retiro"
+                          >
+                            add_circle_outline
+                          </i>
+                          <i
+                            class="material-icons"
+                            *ngIf="disable_retiro"
+                          >
+                            close
+                          </i>
+                        </button>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="!disable_retiro">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                      Opciones
+                                  </th>
+                                  <th>
+                                      Codigo
+                                  </th>
+                                  <th>
+                                      Colores
+                                  </th>
+                                  <th>
+                                      Creado
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr
+                                    *ngFor="let item of list_retiro"
+                                  >
+                                      <td>
+                                        <button
+                                          mat-mini-fab
+                                          (click)="add(item, true)"
+                                          placeholder="Ver"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                            remove_red_eye
+                                          </i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        {{ item.id }}
+                                      </td>
+                                      <td>
+                                        {{ item.color }}
+                                      </td>
+                                      <td>
+                                        {{ item.createdAt}}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                          <mat-paginator [length]="count"
+                                        [pageSize]="10"
+                                        (page)="pageEvent($event)">
+                          </mat-paginator>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="disable_retiro">
+                    <div class="form-column">
+                      <div class="form-row">
+                        <mat-form-field
+                            class="example-full-width col-sm-6"
+                        >
+                            <input
+                                matInput
+                                required
+                                type="text"
+                                placeholder="Codigo"
+                                min="1"
+                                [(ngModel)]="retiro_data.codigo"
+                            >
+                        </mat-form-field>
+                        <mat-form-field
+                            class="example-full-width col-sm-6"
+                        >
+                          <mat-label>Tipo de Cuenta</mat-label>
+                            <mat-select
+                              [(ngModel)]="retiro_data.banco"
+                            >
+                              <mat-option
+                                [value]="ban.id"
+                                *ngFor="let ban of list_banco"
+                              >
+                                {{ ban.banco }}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="example-full-width col-sm-12"
+                        >
+                            <input
+                                matInput
+                                required
+                                type="number"
+                                (blur)="conversion()"
+                                placeholder="Cantidad"
+                                min="1"
+                                [(ngModel)]="retiro_data.cantidad"
+                            >
+                        </mat-form-field>
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Bancos"> 
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger row">
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Bancos</h4>
+                          <p class="card-category" *ngIf="!disable_banco"> Listado de Bancos</p>
+                          <p class="card-category" *ngIf="disable_banco"> Agregar Bancos</p>
+                        </div>
+                        <div class="col p-1" *ngIf="!disable_banco">
+                          <input type="text"
+                            style="color: white;"
+                            matTooltip="Buscador"
+                            class="form-control" placeholder="Buscar Bancos" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+                        </div>
+                        <div class="" *ngIf="!disable_banco">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            matTooltip="Buscar"
+                            placeholder="Buscar" (click)="getsearh()">
+                            <i class="material-icons">search</i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="">
+                        <button
+                          mat-mini-fab
+                          placeholder="guardar"
+                          *ngIf="disable_banco && !baco_data.id"
+                          (click)="saved_banco()"
+                        >
+                          <i class="material-icons">save</i>
+                        </button>
+                        <button
+                          mat-mini-fab
+                          (click)="add(false, false)"
+                          placeholder="agregar"
+                        >
+                          <i
+                            class="material-icons"
+                            *ngIf="!disable_banco"
+                          >
+                            add_circle_outline
+                          </i>
+                          <i
+                            class="material-icons"
+                            *ngIf="disable_banco"
+                          >
+                            close
+                          </i>
+                        </button>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="!disable_banco">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                      Opciones
+                                  </th>
+                                  <th>
+                                      Banco
+                                  </th>
+                                  <th>
+                                      Numero de Cuenta
+                                  </th>
+                                  <th>
+                                      Tipo de Giro
+                                  </th>
+                                  <th>
+                                      Creado
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr
+                                    *ngFor="let item of list_banco"
+                                  >
+                                      <td>
+                                        <button
+                                          mat-mini-fab
+                                          (click)="add(item, false)"
+                                          placeholder="Ver"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                            remove_red_eye
+                                          </i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        {{ item.banco }}
+                                      </td>
+                                      <td>
+                                        {{ item.nCuenta }}
+                                      </td>
+                                      <td>
+                                        {{ item.tipo }}
+                                      </td>
+                                      <td>
+                                        {{ item.createdAt}}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                          <!-- <mat-paginator [length]="count"
+                                        [pageSize]="10"
+                                        (page)="pageEvent($event)">
+                          </mat-paginator> -->
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="disable_banco">
+                    <div class="form-column">
+                      <div class="form-row">
+                        <mat-form-field
+                            class="example-full-width col-sm-6"
+                        >
+                            <mat-label>Banco</mat-label>
+                              <mat-select
+                                (blur)="onBlur_banco('banco')"
+                                [(ngModel)]="baco_data.banco"
+                              >
+                                <mat-option
+                                  value="efecty"
+                                >
+                                  Efecty
+                                </mat-option>
+                                <mat-option
+                                  value="afex"
+                                >
+                                  Afex
+                                </mat-option>
+                                <mat-option
+                                  value="moneygram"
+                                >
+                                  Moneygram
+                                </mat-option>
+                                <mat-option
+                                  value="western-union"
+                                >
+                                  Western Union
+                                </mat-option>
+                                <mat-option
+                                  value="ria"
+                                >
+                                  Ria / Riamoneytransfer
+                                </mat-option>
+                                <mat-option
+                                  value="nequi"
+                                >
+                                  NEQUI
+                                </mat-option>
+                                <mat-option
+                                  value="bbva"
+                                >
+                                  BBVA
+                                </mat-option>
+                                <mat-option
+                                  value="colpatria"
+                                >
+                                  Colpatria
+                                </mat-option>
+                                <mat-option
+                                  value="davivienda"
+                                >
+                                  Davivienda
+                                </mat-option>
+                                <mat-option
+                                  value="banco-caja-social"
+                                >
+                                  Banco Caja Social
+                                </mat-option>
+                                <mat-option
+                                  value="banco-agrario"
+                                >
+                                  Banco Agrario
+                                </mat-option>
+                                <mat-option
+                                  value="banco-av-villas"
+                                >
+                                  Banco AV Villas
+                                </mat-option>
+                                <mat-option
+                                  value="banco-caja-social"
+                                >
+                                  Banco Caja Social
+                                </mat-option>
+                                <mat-option
+                                  value="banco-occidente"
+                                >
+                                  Banco de Occidente
+                                </mat-option>
+                                <mat-option
+                                  value="banco-popular"
+                                >
+                                  Banco Popular
+                                </mat-option>
+                                <mat-option
+                                  value="bancoldex"
+                                >
+                                  Bancóldex
+                                </mat-option>
+                                <mat-option
+                                  value="Bancolombia"
+                                >
+                                  Bancolombia
+                                </mat-option>
+                                <mat-option
+                                  value="banco-de-bogota"
+                                >
+                                  Banco de Bogotá
+                                </mat-option>
+                                <mat-option
+                                  value="gnb-sudameris"
+                                >
+                                  GNB Sudameris
+                                </mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="example-full-width col-sm-6"
+                        >
+                            <input
+                                matInput
+                                required
+                                type="text"
+                                placeholder="Numero de La Cuenta / Identificacion"
+                                min="1"
+                                [(ngModel)]="baco_data.nCuenta"
+                                (blur)="onBlur_banco('nCuenta')"
+                            >
+                        </mat-form-field>
+                        <mat-form-field
+                            class="example-full-width col-sm-6"
+                        >
+                          <mat-label>Tipo de Cuenta</mat-label>
+                            <mat-select
+                              (blur)="onBlur_banco('tipo')"
+                              [(ngModel)]="baco_data.tipo"
+                            >
+                              <mat-option
+                                value="corriente"
+                                *ngIf="baco_data.banco !== ('efecty' || 'afex' || 'moneygram' || 'western-union' || 'ria')"
+                              >
+                                Corriente
+                              </mat-option>
+                              <mat-option
+                                value="ahorro"
+                                *ngIf="baco_data.banco !== ('efecty' || 'afex' || 'moneygram' || 'western-union' || 'ria')"
+                              >
+                                Ahorro
+                              </mat-option>
+                              <mat-option
+                                value="ahorroalaMano"
+                                *ngIf="baco_data.banco !== ('efecty' || 'afex' || 'moneygram' || 'western-union' || 'ria')"
+                              >
+                                Ahorro ala mano
+                              </mat-option>
+                              <mat-option
+                                value="giro"
+                                *ngIf="baco_data.banco === ('efecty' || 'afex' || 'moneygram' || 'western-union' || 'ria')"
+                              >
+                                Giro
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="form-group col-sm-6">
+                            <label for="formGroupExampleInput">fecha de Expedición</label>
+                            <input type="date"
+                              (blur)="onBlur_banco('fecha_expedicion')"
+                              class="form-control" placeholder="Fecha de Expedicion" [(ngModel)]="baco_data.fecha_expedicion">
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

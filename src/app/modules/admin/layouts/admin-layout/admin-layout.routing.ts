@@ -20,7 +20,7 @@ import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
 import { AuthService } from './../../../../services/auth.service';
-import { Config_pagosComponent } from '../../config-pagos/config_pagos.component';
+import { Config_pagosComponent } from '../../config_pagos/config_pagos.component';
 import { GuiasComponent } from '../../guias/guias.component';
 
 export const AdminLayoutRoutes: Routes = [

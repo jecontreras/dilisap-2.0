@@ -29,7 +29,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "superadmin", class: '' },
     { path: '/admin/mercados', title: 'Mercados',  icon:'pageview', rol: "superadmin", class: '' },
     { path: '/admin/guias', title: 'Guias de Envio',  icon:'pageview', rol: "admin", class: '' },
-    // { path: '/admin/config_pagos', title: 'Configurar tu Pagos',  icon:'pageview', rol: "admin", class: '' },
+    { path: '/admin/config_pagos', title: 'Configurar tu Pagos',  icon:'pageview', rol: "admin", class: '' },
     { path: '/admin/configuracion', title: 'Configuracion',  icon:'confirmation_number', rol: "superadmin", class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
 ];

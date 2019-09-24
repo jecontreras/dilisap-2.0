@@ -3,6 +3,8 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
+import { CartService } from 'app/services/factura.service';
+import { FactoryModelService } from 'app/services/factory-model.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,17 +13,24 @@ import * as $ from 'jquery';
 })
 export class NavbarComponent implements OnInit {
     private listTitles: any[];
+    public user: any = {};
+    public ganancias:any = 0;
     location: Location;
       mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
 
-    constructor(location: Location,  private element: ElementRef, private router: Router) {
+    constructor(
+        private _cart: CartService,
+        private _model: FactoryModelService,
+        location: Location,  private element: ElementRef, private router: Router) {
       this.location = location;
           this.sidebarVisible = false;
     }
 
     ngOnInit(){
+      this.user = this._model.user;
+      this.get_ganacias();
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -123,5 +132,28 @@ export class NavbarComponent implements OnInit {
           }
       }
       return 'Dashboard';
+    }
+
+    get_ganacias(){
+        return this._cart.get({
+            where:{
+                user:this.user.id,
+                estado: 'activo'
+            },
+            limit: -1
+        })
+        .subscribe(
+            (res:any)=>{
+                // console.log(res);
+                res = res.data;
+                let ganancias = 0;
+                for(let item of res){
+                    if(item.costo_comision){
+                        ganancias+=item.costo_comision;
+                    }
+                }
+                this.ganancias = ganancias;
+            }
+        )
     }
 }
