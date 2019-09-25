@@ -66,7 +66,19 @@
                                       Codigo
                                   </th>
                                   <th>
-                                      Colores
+                                      Banco
+                                  </th>
+                                  <th>
+                                      Numero Banco
+                                  </th>
+                                  <th>
+                                      User
+                                  </th>
+                                  <th>
+                                      Cantidad
+                                  </th>
+                                  <th>
+                                      Estado
                                   </th>
                                   <th>
                                       Creado
@@ -90,10 +102,33 @@
                                         </button>
                                       </td>
                                       <td>
-                                        {{ item.id }}
+                                        {{ item.codigo }}
                                       </td>
                                       <td>
-                                        {{ item.color }}
+                                        {{ item.banco.banco }}
+                                      </td>
+                                      <td>
+                                        {{ item.banco.nCuenta }}
+                                      </td>
+                                      <td>
+                                        {{ item.user.username }}
+                                      </td>
+                                      <td>
+                                        {{ item.cantidad }}
+                                      </td>
+                                      <td>
+                                        <span *ngIf="user.rol.nombre !== 'super admin'">{{ item.estado }}</span>
+                                        <div class="form-group" *ngIf="user.rol.nombre === 'super admin'">
+                                            <select class="custom-select" (blur)="retiro_data.id=item.id; retiro_data.estado=item.estado; blur('estado', false)" 
+                                              [(ngModel)]="item.estado"
+                                            >
+                                                <option value="activo">Activar</option>
+                                                <option value="pendiente">Pendiente</option>
+                                                <option value="completado">Completado</option>
+                                                <option value="eliminado">Eliminado</option>
+                                                <option value="rechazado">Rechazado</option>
+                                            </select>
+                                          </div>
                                       </td>
                                       <td>
                                         {{ item.createdAt}}
@@ -115,6 +150,7 @@
                         >
                             <input
                                 matInput
+                                [disabled]="retiro_data.id"
                                 required
                                 type="text"
                                 placeholder="Codigo"
@@ -128,6 +164,7 @@
                           <mat-label>Tipo de Cuenta</mat-label>
                             <mat-select
                               [(ngModel)]="retiro_data.banco"
+                              [disabled]="retiro_data.id"
                             >
                               <mat-option
                                 [value]="ban.id"
@@ -141,6 +178,7 @@
                             class="example-full-width col-sm-12"
                         >
                             <input
+                                disabled
                                 matInput
                                 required
                                 type="number"

@@ -3,14 +3,23 @@
         <div class="navbar-wrapper">
           <a class="navbar-brand" href="#">{{getTitle()}}</a>
         </div>
+        <div class="row">
+                <div class="col"></div>
+                <button type="button" [routerLink]="['/admin/config_pagos']"  class="nav-link p-3 mb-2 bg-success text-white mouse">
+                    <a class="">
+                        Ganancias
+                        {{ ganancias | currency:'COP ':true}}
+                    </a>
+                </button>
+        </div>
         <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <!-- <form class="navbar-form">
+        <!-- <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <form class="navbar-form">
                 <div class="input-group no-border">
                     <input type="text" value="" class="form-control" placeholder="Search...">
                     <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -18,9 +27,9 @@
                         <div class="ripple-container"></div>
                     </button>
                 </div>
-            </form> -->
+            </form>
             <ul class="navbar-nav">
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="#pablo">
                         <i class="material-icons">dashboard</i>
                         <p>
@@ -51,19 +60,8 @@
                             <span class="d-lg-none d-md-block">Account</span>
                         </p>
                     </a>
-                </li> -->
-                <li class="nav-item">
-                    <a class="nav-link p-3 mb-2 bg-success text-white mouse">
-                        Ganancias
-                    <i
-                        class="material-icons"
-                    >
-                        attach_money
-                    </i>
-                        {{ ganancias | currency:'COP ':true}}
-                    </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </nav>

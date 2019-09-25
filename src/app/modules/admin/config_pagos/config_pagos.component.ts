@@ -65,7 +65,12 @@ export class Config_pagosComponent implements OnInit {
     this.get_retiro(paginate);
   }
   get_factura(){
-    return this._cart.get({})
+    return this._cart.get({
+      where:{
+        estado: 'activo'
+      },
+      limit: -1
+    })
     .subscribe((res:any)=>{
       res = res.data;
       let ganancias = 0;
@@ -117,7 +122,7 @@ export class Config_pagosComponent implements OnInit {
     })
     .subscribe(
       (res: any)=>{
-        console.log(res.data);
+        // console.log(res.data);
         this.list_banco = _.unionBy(this.list_banco || [], res.data, 'id');
       }
     )
@@ -129,6 +134,9 @@ export class Config_pagosComponent implements OnInit {
     //console.log(this.query);
     // this.query.where.estado = 'activo';
     this.query.sort ='createdAt DESC';
+    if(this.user.rol.nombre === 'super admin'){
+      delete this.query.user;
+    }
     this._retiro.get(this.query)
     .subscribe(
       (res: any)=>{
@@ -146,7 +154,8 @@ export class Config_pagosComponent implements OnInit {
       this.disable_retiro = !this.disable_retiro;
       if(data){
         this.clone_retiro = _.clone(data);
-        this.retiro_data = data;
+        this.retiro_data = this.clone_retiro;
+        this.retiro_data.banco = this.clone_retiro.banco.id;
       }else{
         this.clone_retiro = {};
         this.retiro_data = {
@@ -198,25 +207,27 @@ export class Config_pagosComponent implements OnInit {
     let
       query: any = this.retiro_data
     ;
-    // if(query){
-    //   this._retiro.saved_retiro(query)
-    //   .subscribe(
-    //     (res: any)=>{
-    //       // console.log(res);
-    //       if(res){
-    //         this.retiro_data = {};
-    //         this.list_retiro.push(res);
-    //         swal("Completado!", "Agregado Correctamente!", "success");
-    //         this.disable_retiro = !this.disable_retiro;
-    //       }else{
-    //         swal("Fallo!", "Error al Agregar!", "error");
-    //       }
-    //     }
-    //   )
-    //   ;
-    // }else{
-    //   swal("Fallo!", "Error Agrege un Titulo!", "error");
-    // }
+    if(query){
+      // console.log(query);
+      this._retiro.saved_retiro(query)
+      .subscribe(
+        (res: any)=>{
+          // console.log(res);
+          if(res){
+            this.retiro_data = {};
+            this.list_retiro.push(res);
+            swal("Completado!", "Agregado Correctamente!", "success");
+            this.disable_retiro = !this.disable_retiro;
+            location.reload();
+          }else{
+            swal("Fallo!", "Error al Agregar!", "error");
+          }
+        }
+      )
+      ;
+    }else{
+      swal("Fallo!", "Error Agrege un Titulo!", "error");
+    }
   }
   blur(opt: string){
     // console.log(opt, this.clone, this.data);
@@ -228,7 +239,7 @@ export class Config_pagosComponent implements OnInit {
         ;
         query[opt] = this.retiro_data[opt];
         if(query.id){
-          this._colores.edit(query)
+          this._retiro.edit(query)
           .subscribe(
             (res: any)=>{
               // console.log(res);
